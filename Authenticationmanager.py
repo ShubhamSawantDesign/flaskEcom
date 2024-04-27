@@ -1,9 +1,22 @@
 # This Class Is written with defination required for Authetincation 
 
 from flask import request
+import bcrypt
 
-def loginUser():
+def loginUser(mysql):
     if request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
-        return request.form
+
+        cursor = mysql.connection.cursor()
+        cursor.execute("SELECT user_id, email, password FROM tbl_authentication WHERE email = %s", (email,))
+        user = cursor.fetchone()
+
+        if user:
+            user_id, _, hashed_password = user
+            if bcrypt.checkpw(password.encode('utf-8'), hashed_password.encode('utf-8')):
+                return {'message': 'Login successful', 'user_id': user_id}
+            else:
+                return {'message': 'Invalid password'}, 401
+        else:
+            return {'message': 'User not found'}, 404
