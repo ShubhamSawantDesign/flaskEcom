@@ -1,0 +1,263 @@
+<footer class="footer footer-2">
+    <div class="footer-middle">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12 col-lg-6 col-xl-5">
+                    <div class="widget widget-about">
+                        <img src="{{ url_for('static', filename='images/frontend_images/Artaux-01.svg') }}" class="footer-logo" alt="Artaux" width="195">
+                        <p>Artaux is a platform built in collaboration with artists from across the globe, who joined the forces to help people better express their already ingenious ideas.</p>
+                    </div>
+                </div>
+
+                <div class="col-lg-6 col-xl-7">
+                    <div class="row">
+                        <div class="col-md-4 col-sm-6">
+                            <div class="widget">
+                                <h4 class="widget-title">Information</h4>
+                                <ul class="widget-list">
+                                    <li><a href="/about">About Us</a></li>
+                                    <li><a href="/contact">Contact Us</a></li>
+                                    <li><a href="/static', filename='page/7/terms-of-use">Terms Of Use</a></li>
+                                    <li><a href="/artaux-policies">Our Policies</a></li>
+                                    <li><a href="/static', filename='page/4/contributor-agreement">Contributor Agreement</a></li>
+                                    <li><a href="/static', filename='page/5/end-user-license-agreement">End User License Agreement</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-6">
+                            <div class="widget">
+                                <h4 class="widget-title">Contact Information</h4>
+                                <ul class="widget-list">
+                                    <li><i class="icon-phone"></i><a href="tel:+919372389474">+91 9372389474</a></li>
+                                    <li><i class="icon-envelope"></i><a href="mailto:info@artaux.io">info@artaux.io</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <div class="container-fluid">
+            <p class="footer-copyright">2024 © Artaux | All Rights Reserved. Developed By <a href="https://ycstech.in">YCS TechSoft Pvt. Ltd.</a></p>
+            <div class="social-icons social-icons-color">
+                <span class="social-label">Follow Us On</span>
+                <a href="#" class="social-icon social-facebook" title="Facebook" target="_blank"><i class="icon-facebook-f"></i></a>
+                <a href="#" class="social-icon social-twitter" title="Twitter" target="_blank"><i class="icon-twitter"></i></a>
+                <a href="#" class="social-icon social-instagram" title="Instagram" target="_blank"><i class="icon-instagram"></i></a>
+                <a href="#" class="social-icon social-youtube" title="Youtube" target="_blank"><i class="icon-youtube"></i></a>
+                <a href="#" class="social-icon social-pinterest" title="Pinterest" target="_blank"><i class="icon-pinterest"></i></a>
+            </div>
+        </div>
+    </div>
+</footer>
+</div>
+<button id="scroll-top" title="Back to Top"><i class="icon-arrow-up"></i></button>
+
+<div class="mobile-menu-overlay"></div>
+
+<div class="mobile-menu-container">
+    <div class="mobile-menu-wrapper">
+        <span class="mobile-menu-close"><i class="icon-close"></i></span>
+        <form action="/search-template" method="post" class="mobile-search">
+            <label for="mobile-search" class="sr-only">Search</label>
+            <input type="text" class="form-control" name="search" placeholder="Search in...">
+            <button class="btn btn-primary" type="submit"><i class="icon-search"></i></button>
+        </form>
+
+        <ul class="nav nav-pills-mobile" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="mobile-menu-link" data-toggle="tab" href="#mobile-menu-tab" role="tab" aria-controls="mobile-menu-tab" aria-selected="true">Currency & account</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="mobile-cats-link" data-toggle="tab" href="#mobile-cats-tab" role="tab" aria-controls="mobile-cats-tab" aria-selected="false">Categories</a>
+            </li>
+        </ul>
+
+        <div class="tab-content">
+            <div class="tab-pane fade show active" id="mobile-menu-tab" role="tabpanel" aria-labelledby="mobile-menu-link">
+                <nav class="mobile-nav">
+                    <ul class="mobile-menu">
+                        <li>
+                            <a href="#">Menu</a>
+                            <ul>
+                                <li class="active"><a href="/home">Home</a></li>
+                                <li class=""><a href="/trending_templates">Trending</a></li>
+                                <li class="active"><a href="/hot_templates">Hot</a></li>
+                                <li class="active"><a href="/about">About Us</a></li>
+                                <li class="active"><a href="/contact">Contact Us</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#">
+                                {% if 'flag' in session %}
+                                {% if session.flag is none %}
+                                    ₹ INR &nbsp;
+                                {% else %}
+                                    {{ session.flag.symbol }} {{ session.flag.country }} &nbsp;
+                                {% endif %}
+                                {% else %}
+                                    <!-- Handle the case where 'flag' attribute is not present in the session -->
+                                    ₹ INR &nbsp;
+                                {% endif %}
+                            </a>
+                            <ul>
+                                {% for row in currencyall %}
+                                    <li><a href="{{ url_for('get-currency', country=row.country) }}">{{ row.symbol }} {{ row.country }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                        {% if 'user_id' in session %}
+                            <li>
+                                <a href="#" style="text-transform: capitalize; color: white"><i class="fa fa-user"></i> Logged in as: {{ session['email'] }} </a>
+                                <ul>
+                                    <li><a href="/dashboard"><i class="fa fa-th"></i> &nbsp; Dashboard</a></li>
+                                    <li><a href="/downloads"><i class="fa fa-download"></i> &nbsp; Downloads</a></li>
+                                    <li><a href="/orders"><i class="fa fa-bell-o"></i> &nbsp; My Orders</a></li>
+                                    <li><a href="/account"><i class="fa fa-user-o"></i> &nbsp; My Account</a></li>
+                                    <li><a href="/wishlist"><i class="fa fa-heart-o"></i> &nbsp; My wishlist</a></li>
+                                    <li><a href="/user.logout"><i class="fa fa-power-off"></i> &nbsp; Logout</a></li>
+                                </ul>
+                            </li>
+                        {% else %}
+                            <li><a href="/artist_login" style="cursor: pointer; color: white"><i class="fa fa-lock"></i> Artist Login</a></li>
+                            <li class="p-3"><a href="/user_register" class="btn btn-primary btn-shadow" style="color:white"><i class="fa fa-user"></i> Sign In</a></li>
+                            <li class="p-3"><a href="/user_register" class="btn btn-primary btn-shadow" style="color:white"><i class="fa fa-pencil"></i> Register Now</a></li>
+                        {% endif %}
+                    </ul>
+                </nav>
+            </div>
+            <div class="tab-pane fade" id="mobile-cats-tab" role="tabpanel" aria-labelledby="mobile-cats-link">
+                <nav class="mobile-cats-nav">
+                    <ul class="mobile-cats-menu" style="max-height: 350px; overflow-y: scroll;">
+                      
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
+        <div class="social-icons">
+            <a href="#" class="social-icon" target="_blank" title="Facebook"><i class="icon-facebook-f"></i></a>
+            <a href="#" class="social-icon" target="_blank" title="Instagram"><i class="icon-instagram"></i></a>
+            <a href="#" class="social-icon" target="_blank" title="Twitter"><i class="icon-twitter"></i></a>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="signin-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="icon-close"></i></span>
+                </button>
+
+                <div class="form-box" style="background-color: linear-gradient(216deg, #8e70513b, transparent)">
+                    <div class="form-tab">
+                        <div class="text-center">
+                            <h3 class="nav-link active">Sign In</h3>
+                            <a href="/user_register" class="btn-link">Don't have an account? Register to Artaux <i class="fa fa-angle-right"></i></a>
+                        </div>
+                        <div class="tab-content">
+                            <div class="tab-pane fade show active">
+                                <form action="/user_login" method="post" id="loginForm">
+                                    <div class="form-group">
+                                        <label for="email" class="field-required">Email</label>
+                                        <input type="text" class="form-control" id="email" name="email" required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="password" class="field-required">Password</label>
+                                        <input type="password" name="password" class="form-control" id="password" required>
+                                        <span toggle="#password" class="fa fa-fw fa-eye field-icon" id="show-pass"></span>
+                                    </div>
+
+                                    <div class="form-footer">
+                                        <button type="submit" class="btn btn-outline-primary-2"><span><i class="fa fa-lock"></i> LOG IN</span><i class="icon-long-arrow-right"></i></button>
+                                        <a href="/forgot_password" class="forgot-link">Forgot Password?</a>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <a href="/redirect" class="btn btn-primary-white btn-block"><span><i class="fa fa-google"></i> Login with Google</span><i class="icon-long-arrow-right"></i></a>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+    function setCookie(cname, cvalue, exdays) {
+        const d = new Date();
+        d.setTime(d.getTime() + (exdays*24*60*60*1000));
+        let expires = "expires="+ d.toUTCString();
+        document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+    }
+    
+    // Delete cookie
+    function deleteCookie(cname) {
+        const d = new Date();
+        d.setTime(d.getTime() + (24*60*60*1000));
+        let expires = "expires="+ d.toUTCString();
+        document.cookie = cname + "=;" + expires + ";path=/";
+    }
+    
+    // Read cookie
+    function getCookie(cname) {
+        let name = cname + "=";
+        let decodedCookie = decodeURIComponent(document.cookie);
+        let ca = decodedCookie.split(';');
+        for(let i = 0; i <ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return "";
+    }
+    
+    // Set cookie consent
+    function acceptCookieConsent(){
+        deleteCookie('user_cookie_consent');
+        setCookie('user_cookie_consent', 1, 30);
+        $("#modal-info").hide();
+    }
+    
+    
+               let cookie_consent = getCookie("user_cookie_consent");
+    if(cookie_consent != ""){
+        $("#modal-info").hide();
+    }else{
+        $("#modal-info").show();
+    }
+               </script>
+    
+    <script src="{{ url_for('static', filename='js/frontend_js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/frontend_js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/frontend_js/jquery.hoverIntent.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/frontend_js/jquery.waypoints.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/frontend_js/superfish.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/frontend_js/owl.carousel.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/frontend_js/jquery.magnific-popup.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/frontend_js/bootstrap-input-spinner.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/frontend_js/jquery.elevateZoom.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/frontend_js/main.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/frontend_js/custom.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/frontend_js/jquery.validate.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/frontend_js/jquery.fields.validation.js') }}"></script>
+    
+    <script src="{{ url_for('static', filename='js/frontend_js/toastr.min.js') }}"></script>
+    
+    <!-- <script src="https://www.paypal.com/sdk/js?client-id=AX10ES3JSKrkBYvEVW1pWN153Ul8TNGJJF5k_4fPUwmSOxF12YahnLWqGhhizFdFmltQ0GVJcNgP19EW"></script> -->
+    
+    <script src="https://unpkg.com/sweetalert2@7.18.0/dist/sweetalert2.all.js"></script>
+    <script src="{{ url_for('static', filename='js/frontend_js/sweetalert.js') }}"></script>    
+    
+</body>
