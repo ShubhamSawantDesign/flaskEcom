@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+    <title>E-Comm Flask Project</title>
+    <link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='images/frontend_images/favicon.png') }}">
+    <meta name="description" content="Artaux"> 
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <meta content="utf-8" http-equiv="encoding">
+    <meta name="keywords" content="Artaux">
+    <meta name="csrf-token" content="">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link href="{{ url_for('static', filename='css/frontend_css/custom.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/frontend_css/app.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/frontend_css/owl.carousel.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/frontend_css/nouislider.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/frontend_css/magnific-popup.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/frontend_css/line-awesome.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/frontend_css/demo-20.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/frontend_css/demo-30.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/frontend_css/skin-demo-30.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/frontend_css/animate.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/frontend_css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/frontend_css/style.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/frontend_css/jquery.countdown.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/frontend_css/toastr.min.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/frontend_css/sweetalert.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ url_for('static', filename='css/frontend_css/font-awesome-animation.css') }}" rel="stylesheet" type="text/css">
+    <script src="{{ url_for('static', filename='js/frontend_js/jquery.js') }}"></script>
+    
+</head>
+<body>
+    <div class="modal show" id="modal-info">
+        <div class="modal-dialog">
+            <div class="modal-content bg-info">
+                <div class="modal-header">
+                    <h4 class="modal-title">Cookies Policy</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Cookies Policy&hellip;</p>
+                    <p>This website uses cookies to enhance your browsing experience and provide personalized recommendations. By clicking on accept, you declare that you agree with our cookie policies&hellip;</p>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button class="btn-primary" onclick="acceptCookieConsent();">Accept</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!--  -->
+</body>
+<!-- Header Part is here -->
+<header class="header">
+    <!-- Header top -->
+    <div class="header-top" style="background-image:  url_for('static', filename='images/notification-back.jpg')">
+        <div class="container-fluid">
+            <!-- Header left -->
+            <div class="header-left">
+                <!-- Header dropdown -->
+                <div class="header-dropdown">
+                    <a href="mailto:info@artaux.io"><i class="fa fa-envelope"></i>&nbsp;info@artaux.io</a>
+                </div>
+                <div class="header-dropdown">
+                    <a href="javascript:void">
+                        {% if 'flag' not in session %}
+                            ₹ INR &nbsp;
+                        {% else %}
+                            {{ session['flag'].symbol }} {{ session['flag'].country }} &nbsp;
+                        {% endif %}
+                        <i class="fa fa-angle-down"></i>
+                    </a>
+                    <div class="header-menu">
+                        <ul>
+                            {% for row in currencyall %}
+                                <li><a href="{{ url_for('get_currency', country=row.country) }}">{{ row.symbol }} {{ row.country }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Header right -->
+            <div class="header-right">
+                <!-- Top menu -->
+                <ul class="top-menu">
+                    <li>
+                        <a href="#">Logins</a>
+                        <ul>
+                            <li><a href="/artist_register"><i class="fa fa-pencil"></i> Sell your art</a></li>
+                            <li><a href="/artist_login" class="btn btn-white-2 btn-sm"><i class="fa fa-user-o"></i> Artist Login &nbsp;</a></li>
+                            {% if 'user_id' in session %}
+                                <li><a href="/downloads"><i class="fa fa-download"></i> Downloads &nbsp;</a></li>
+                            {% else %}
+                                <li><a href="#signin-modal" class="btn btn-white-2 btn-sm" data-toggle="modal"><i class="fa fa-user-o"></i> Login &nbsp;</a></li>
+                            {% endif %}
+                        </ul>
+                    </li>
+                </ul>
+                {% if 'user_id' in session %}
+                    <!-- Header dropdown -->
+                    <div class="header-dropdown">
+                        <a href="/dashboard"><i class="fa fa-user-o"></i> &nbsp; Logged in as: {{ session['email'] }} &nbsp;<i class="fa fa-angle-down"></i></a>
+                        <div class="header-menu">
+                            <ul>
+                                <li><a href="/dashboard"><i class="fa fa-th"></i> &nbsp; Dashboard</a></li>
+                                <li><a href="/downloads"><i class="fa fa-download"></i> &nbsp; Downloads</a></li>
+                                <li><a href="/orders"><i class="fa fa-bell-o"></i> &nbsp; My Orders</a></li>
+                                <li><a href="/account"><i class="fa fa-user-o"></i> &nbsp; My Account</a></li>
+                                <li><a href="/wishlist"><i class="fa fa-heart-o"></i> &nbsp; My wishlist</a></li>
+                                <li><a href="/logout"><i class="fa fa-power-off"></i> &nbsp; Logout</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Header middle -->
+    <div class="header-middle sticky-header">
+        <div class="container-fluid">
+            <div class="header-left">
+                <button class="mobile-menu-toggler">
+                    <span class="sr-only">Toggle mobile menu</span>
+                    <i class="icon-bars"></i>
+                </button>
+
+                <a href="/" class="logo">
+                    <img src="{{ url_for('static', filename='images/frontend_images/Artaux-01.svg') }}" alt="Artaux" width="170">
+                </a>
+            </div>
+
+            <div class="header-center">
+                <nav class="main-nav">
+                    <ul class="menu sf-arrows">
+                        {% for cat in categories %}
+                        <li>
+                            <a href="{{ url_for('templates', id=cat[0]) }}" class="sf-with-ul">{{ cat[3] }}</a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </nav>
+            </div>
+
+            <div class="header-right">
+                <!-- Header search -->
+                <div class="header-search">
+                    <a href="#" class="search-toggle" role="button" title="Search"><i class="icon-search"></i></a>
+                    <form action="/search_template" method="post">
+                        <div class="header-search-wrapper">
+                            <label for="search" class="sr-only">Search</label>
+                            <input type="text" class="form-control" name="search"  placeholder="Search in..." >
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Cart dropdown -->
+                <div class="dropdown cart-dropdown">
+                    <a href="/cart" class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-display="static">
+                        <i class="icon-shopping-cart"></i>
+                        <span class="cart-count">{{ cartCount }}</span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <!-- Dropdown cart products -->
+                        <div class="dropdown-cart-products">
+                       
+                            {% if userCart %}
+                                {% for cart in userCart %}
+                                    <div class="product">
+                                        <div class="product-cart-details">
+                                            <h4 class="product-title">
+                                                <a href="{{ url_for('template', product_id=cart.product_id, title=title) }}">{{ cart.product_name }}</a>
+                                            </h4>
+                                            {% if 'flag' not in session %}
+                                                <span class="cart-product-info">₹ {{ cart.price }} </span>
+                                            {% else %}
+                                                <span>{{ session['flag'].symbol }} {{ round(cart.price/session['flag'].rate, 2) }}</span>
+                                            {% endif %}
+                                        </div>
+                                        <figure class="product-image-container">
+                                            <a href="{{ url_for('template', product_id=cart.product_id, title=title) }}" class="product-image">
+                                                <img src="{{ url_for('static', filename='images/template/images/'+cart.image) }}">
+                                            </a>
+                                        </figure>
+                                        <a href="{{ url_for('cart_delete_item', id=cart.id) }}" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
+                                    </div>
+                                {% endfor %}
+                            {% else %}
+                                <div class="alert alert-secondary" role="alert">
+                                    <div class="alert-link">Your cart is empty! Keep shopping</div>
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Dropdown cart total -->
+                        <div class="dropdown-cart-total">
+                            <span>Total</span>
+                            {% if 'flag' not in session %}
+                                <span class="cart-total-price">₹ {{ total_amount }}</span>
+                            {% else %}
+                                <span class="cart-total-price">{{ session['flag'].symbol }} {{ round(total_amount/session['flag'].rate,2) }}</span>
+                            {% endif %}
+                        </div>
+
+                        <!-- Dropdown cart action -->
+                        <div class="dropdown-cart-action">
+                            <a href="/cart" class="btn btn-primary">View Cart</a>
+                            <a href="/checkout" class="btn btn-outline-primary-2" {% if userCart %} disabled {% endif %}><span>Checkout</span><i class="icon-long-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
